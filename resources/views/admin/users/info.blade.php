@@ -10,7 +10,8 @@ Users Page
 <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title ">بيانات العضو</h4>
+                <a href="{{ route('admin.userSave', ['id' => $userData->id]) }}" style="display: inline-block;float: left;color: black" class="btn btn-secondary pull-right">تعديل بيانات العضو</a>
+                  <h4 class="card-title ">تعديل البيانات</h4>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
@@ -96,6 +97,9 @@ Users Page
                         <th>
                           رقم الجوال
                         </th>
+                        <th>
+                          حذف
+                        </th>
                       </tr></thead>
                       <tbody>
           @foreach($userFriends as $user)
@@ -104,6 +108,11 @@ Users Page
             <td><a class="tableAnchor" href="{{ route('admin.userInfo', ['id' => $user->id]) }}">{{$user->name}}</a></td>
             <td><a class="tableAnchor" href="{{ route('admin.userInfo', ['id' => $user->id]) }}">{{$user->email}}</a></td>
             <td><a class="tableAnchor" href="{{ route('admin.userInfo', ['id' => $user->id]) }}">{{$user->mobile}}</a></td>
+            <td class="td-actions text-right">
+              <a href="{{ route('admin.deleteFollow', ['followed' => $user->id, 'follower' => $userData->id]) }}" rel="tooltip" class="btn btn-danger btn-link btn-sm" data-original-title="حذف">
+                <i class="material-icons">close</i>
+              </a>
+            </td>
           </tr>
           @endforeach
                       </tbody>
@@ -135,6 +144,9 @@ Users Page
                         <th>
                           رقم الجوال
                         </th>
+                        <th>
+                          حذف
+                        </th>
                       </tr></thead>
                       <tbody>
           @foreach($userFavourites as $user)
@@ -143,6 +155,11 @@ Users Page
             <td><a class="tableAnchor" href="{{ route('admin.userInfo', ['id' => $user->id]) }}">{{$user->name}}</a></td>
             <td><a class="tableAnchor" href="{{ route('admin.userInfo', ['id' => $user->id]) }}">{{$user->email}}</a></td>
             <td><a class="tableAnchor" href="{{ route('admin.userInfo', ['id' => $user->id]) }}">{{$user->mobile}}</a></td>
+            <td class="td-actions text-right">
+              <a href="{{ route('admin.deleteFavourite', ['favourited' => $user->id, 'favouriter' => $userData->id]) }}" rel="tooltip" class="btn btn-danger btn-link btn-sm" data-original-title="حذف">
+                <i class="material-icons">close</i>
+              </a>
+            </td>
           </tr>
           @endforeach
                       </tbody>

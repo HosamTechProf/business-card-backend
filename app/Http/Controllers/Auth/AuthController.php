@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Image;
 class AuthController extends Controller
 {
     public function login(Request $request) {
@@ -41,6 +42,8 @@ class AuthController extends Controller
                   'password' => 'required|min:6',
                   'c_password' => 'required|same:password',
                   'mobile' => 'required|regex:/(01)[0-9]{9}/',
+                  'desc' => 'required',
+                  'company' => 'required'
         ]);
         if ($validator->fails()) {
            return response()->json(['error'=>$validator->errors()], 401);
@@ -99,6 +102,18 @@ class AuthController extends Controller
         $user->isPublic = $request->isPublic;
         $user->save();
         }
+        elseif($request->has('image')) {
+        $image = $request->image;
+        $image = substr($image, strpos($image, ",")+1);
+        $data = base64_decode($image);
+        $png_url = "user-".time().".png";
+        $path = public_path().'/img/users/' . $png_url;
+        $user->image = $png_url;
+        $user->save();
+        file_put_contents($path, $data);
+        return response()->json($user);
+        }
+
         return response()->json($user);
     }
     public function search(Request $request)

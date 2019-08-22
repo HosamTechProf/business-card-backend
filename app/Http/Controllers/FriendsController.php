@@ -6,19 +6,27 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\User;
 use App\Friend;
-use DB;
+
 class FriendsController extends Controller
 {
-    public function addFriend(Request $request)
-    {
-        $input = $request->all();
-        $friend = Friend::create($input);
+    public function addFriend(Request $request){
+        $user1 = User::find($request->user1_id);
+        $user2 = User::find($request->user2_id);
+        $user1->follow($user2);
+        return response()->json(['status'=>true], 200);
+    }
+
+    public function addFriendQr(Request $request){
+        $user1 = User::find($request->user1_id);
+        $user2 = User::find($request->user2_id);
+        $user1->follow($user2);
+        $user2->follow($user1);
         return response()->json(['status'=>true], 200);
     }
 
     public function getFriends(){
         $user = Auth::user();
-		return $user->friends;
+		return $user->followings()->get();
     }
 
     public function getFriendData(Request $request){
@@ -27,28 +35,18 @@ class FriendsController extends Controller
         return $user;
     }
 
-    public function recentlyUsed(){
-        $user = Auth::user();
-        return $user->friends->take(4);
-    }
-
     public function deleteFriend(Request $request){
-        $input = $request->all();
-        if (Friend::where('user1_id', '=', $input['user1_id'])->where('user2_id' , '=', $input['user2_id'])->exists()) {
-            Friend::where('user1_id', '=', $input['user1_id'])->where('user2_id' , '=', $input['user2_id'])->delete();
-        return response()->json(['status'=>true], 200);
-        }
-        elseif (Friend::where('user2_id', '=', $input['user1_id'])->where('user1_id' , '=', $input['user2_id'])->exists()) {
-            Friend::where('user1_id', '=', $input['user1_id'])->where('user2_id' , '=', $input['user2_id'])->delete();
-        return response()->json(['status'=>true], 200);
-        }
-    }
+        $user1 = User::find($request->user1_id);
+        $user2 = User::find($request->user2_id);
+        $user1->unfollow($user2);
+     }
 
-    public function isFriend(Request $request)
-    {
-        $input = $request->all();
-        $first = DB::table("friends")->where("user1_id", $input['user1_id'])->where("user2_id", $input['user2_id'])->count();
-        $second = DB::table("friends")->where("user2_id", $input['user1_id'])->where("user1_id", $input['user2_id'])->count();
-        return $first + $second;
+    public function isFriend(Request $request){
+        $user1 = User::find($request->user1_id);
+        $user2 = User::find($request->user2_id);
+        if ($user1->isFollowing($user2)) {
+            return 'true';
+        }
+        return 'false';
     }
 }

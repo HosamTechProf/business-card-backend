@@ -1,10 +1,10 @@
 @extends('admin.layout.app')
 @section('title')
-Users Page
+add User
 @endsection
 
 @section('content')
-@component('admin.layout.header', ['nav_title' => 'تعديل بيانات عضو'])
+@component('admin.layout.header', ['nav_title' => 'اضافة عضو'])
 @endcomponent
       <div class="content">
         <div class="container-fluid">
@@ -12,28 +12,28 @@ Users Page
             <div>
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">تعديل بيانات عضو</h4>
+                  <h4 class="card-title">اضافة عضو</h4>
                 </div>
                 <div class="card-body">
-                  <form method="POST" action="{{ route('admin.userSave', ['id'=>$userData['id']]) }}">
+                  <form method="POST" action="{{ route('admin.addUser') }}">
                     <div class="row">
                       {{ csrf_field() }}
                       <div class="col-md-5">
                         <div class="form-group">
                           <label class="bmd-label-floating">الإسم</label>
-                          <input type="text" class="form-control" value="{{$userData['name']}}" name="name">
+                          <input type="text" class="form-control" value="{{ old('name') }}" name="name">
                         </div>
                       </div>
                       <div class="col-md-3">
                         <div class="form-group">
                           <label class="bmd-label-floating">رقم الجوال</label>
-                          <input type="text" class="form-control" value="{{$userData['mobile']}}" name="mobile">
+                          <input type="text" class="form-control" value="{{ old('mobile') }}" name="mobile">
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
                           <label class="bmd-label-floating">رقم الهاتف</label>
-                          <input type="text" class="form-control" value="{{$userData['phone']}}" name="phone">
+                          <input type="text" class="form-control" value="{{ old('phone') }}" name="phone">
                         </div>
                       </div>
                     </div>
@@ -41,13 +41,13 @@ Users Page
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">الشركة او النشأة</label>
-                          <input type="text" class="form-control" value="{{$userData['company']}}" name="company">
+                          <input type="text" class="form-control" value="{{ old('company') }}" name="company">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">نبذة تعريفية</label>
-                          <input type="text" class="form-control" value="{{$userData['desc']}}" name="desc">
+                          <input type="text" class="form-control" value="{{ old('desc') }}" name="desc">
                         </div>
                       </div>
                     </div>
@@ -55,7 +55,7 @@ Users Page
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">البريد الإلكتروني</label>
-                          <input type="text" class="form-control" value="{{$userData['email']}}" name="email">
+                          <input type="text" class="form-control" value="{{ old('email') }}" name="email">
                         </div>
                       </div>
                       <div class="col-md-6">
@@ -71,13 +71,13 @@ Users Page
                             <label class="bmd-label-floating">حالة البطاقة</label>
                             <select name="isPublic" class="custom-select">
                               <option value="">-----</option>
-                              <option value="1" {{ $userData->isPublic ? 'selected' : ''}}>عامة</option>
-                              <option value="0" {{ !$userData->isPublic ? 'selected' : ''}}>خاصة</option>
+                              <option value="1">عامة</option>
+                              <option value="0">خاصة</option>
                             </select>
                           </div>
                         </div>
                       </div>
-                    <button type="submit" class="btn btn-primary pull-right">تعديل البيانات</button>
+                    <button type="submit" class="btn btn-primary pull-right">اضافة</button>
                     <div class="clearfix"></div>
                   </form>
                 </div>

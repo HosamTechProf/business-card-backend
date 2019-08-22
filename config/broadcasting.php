@@ -53,6 +53,9 @@ return [
         'null' => [
             'driver' => 'null',
         ],
+        'fcm' => [
+            'key' => env('FCM_SENDER_ID','FCM_SERVER_KEY')
+        ]
 
     ],
 

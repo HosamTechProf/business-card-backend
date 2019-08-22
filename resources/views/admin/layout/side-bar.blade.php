@@ -11,16 +11,22 @@
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/users">
+          <li class="nav-item {{ (request()->is('admin/home')) ? 'active' : '' }}">
+            <a class="nav-link" href="/admin/home">
               <i class="material-icons">dashboard</i>
               <p>الرئيسية</p>
             </a>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item {{ (request()->is('admin/users')) ? 'active' : '' }}">
             <a class="nav-link" href="/admin/users">
               <i class="material-icons">person</i>
               <p>الأعضاء</p>
+            </a>
+          </li>
+          <li class="nav-item {{ (request()->is('admin/advertisements')) ? 'active' : '' }}">
+            <a class="nav-link" href="/admin/advertisements">
+              <i class="material-icons">announcement</i>
+              <p>الإعلانات</p>
             </a>
           </li>
         </ul>

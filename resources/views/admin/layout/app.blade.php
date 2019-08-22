@@ -63,6 +63,14 @@
       color:black;
       text-decoration: underline;
     }
+
+.page-item.active .page-link{
+  background-color: #E43E33;
+}
+.pagination > li > a,
+.pagination > li > span {
+    color: black
+}
   </style>
 </head>
 

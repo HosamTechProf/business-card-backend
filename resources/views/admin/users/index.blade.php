@@ -10,8 +10,9 @@ Users Page
 <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
+                <a href="{{ route('admin.addUserGet') }}" style="display: inline-block;float: left;color: black" class="btn btn-secondary pull-right">اضافة عضو</a>
                   <h4 class="card-title ">كل الأعضاء</h4>
-                  <p class="card-category">هنا يمكنك حذف وتعديل الأعضاء</p>
+                  <p style="display: inline-block;" class="card-category">هنا يمكنك حذف وتعديل الأعضاء</p>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
@@ -37,18 +38,19 @@ Users Page
 						<td><a href="{{ route('admin.userInfo', ['id' => $user->id]) }}">{{$user->name}}</a></td>
 						<td><a href="{{ route('admin.userInfo', ['id' => $user->id]) }}">{{$user->email}}</a></td>
             <td class="td-actions text-right">
-              <button type="button" rel="tooltip" title="" class="btn btn-primary btn-link btn-sm" data-original-title="تعديل">
+              <a href="{{ route('admin.userEditGet', ['id' => $user->id]) }}" rel="tooltip" class="btn btn-primary btn-link btn-sm" data-original-title="تعديل">
                 <i class="material-icons">edit</i>
-              </button>
-              <button type="button" rel="tooltip" title="" class="btn btn-danger btn-link btn-sm" data-original-title="حذف">
+              </a>
+              <a href="{{ route('admin.userDelete', ['id' => $user->id]) }}" rel="tooltip" class="btn btn-danger btn-link btn-sm" data-original-title="حذف">
                 <i class="material-icons">close</i>
-              </button>
+              </a>
             </td>
 					</tr>
  					@endforeach
                       </tbody>
                     </table>
                   </div>
+                <div class="clearfix">{{$users->links()}}</div>
                 </div>
               </div>
             </div>

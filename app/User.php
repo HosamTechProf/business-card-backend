@@ -7,9 +7,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Friend;
+use Overtrue\LaravelFollow\Traits\CanFollow;
+use Overtrue\LaravelFollow\Traits\CanBeFollowed;
+
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, CanFollow, CanBeFollowed;
 
     /**
      * The attributes that are mass assignable.
@@ -38,44 +41,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected function friendsOfThisUser()
-    {
-        return $this->belongsToMany('App\User', 'friends', 'user1_id', 'user2_id');
+    public function routeNotificationForFcm() {
+        //return a device token, either from the model or from some other place.
+        return $this->device_token;
     }
 
-    // friendship that this user was asked for
-    protected function thisUserFriendOf()
-    {
-        return $this->belongsToMany('App\User', 'friends', 'user2_id', 'user1_id');
-    }
-
-    // accessor allowing you call $user->friends
-    public function getFriendsAttribute()
-    {
-        if ( ! array_key_exists('friends', $this->relations)) $this->loadFriends();
-        return $this->getRelation('friends');
-    }
-
-    protected function loadFriends()
-    {
-        if ( ! array_key_exists('friends', $this->relations))
-        {
-        $friends = $this->mergeFriends();
-        $this->setRelation('friends', $friends);
-    }
-    }
-
-    protected function mergeFriends()
-    {
-        if($temp = $this->friendsOfThisUser)
-        return $temp->merge($this->thisUserFriendOf);
-        else
-        return $this->thisUserFriendOf;
-    }
-    public function addFriend()
-    {
-        return $this->hasMany('App\Friend');
-    }
     public function favourites()
     {
         return $this->belongsToMany('App\User', 'favourites', 'user1_id', 'user2_id');

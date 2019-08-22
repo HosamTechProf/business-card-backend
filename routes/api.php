@@ -12,6 +12,7 @@ Route::group([
     ], function() {
         Route::post('user', 'Auth\AuthController@user');
         Route::post('addFriend', 'FriendsController@addFriend');
+        Route::post('addFriendQr', 'FriendsController@addFriendQr');
         Route::post('addFavourite', 'favouritesController@addFavourite');
         Route::post('isFavorited', 'favouritesController@isFavorited');
         Route::post('getFavourites', 'favouritesController@getFavourites');
@@ -20,8 +21,9 @@ Route::group([
         Route::post('getFriends', 'FriendsController@getFriends');
         Route::post('isFriend', 'FriendsController@isFriend');
         Route::post('deleteFriend', 'FriendsController@deleteFriend');
-        Route::post('recentlyUsed', 'FriendsController@recentlyUsed');
         Route::post('getFriendData', 'FriendsController@getFriendData');
         Route::post('search', 'Auth\AuthController@search');
+        Route::post('getads', 'AdvertisementsController@getAdvertisements');
+        Route::post('getadscount', 'AdvertisementsController@getAdvertisementsCount');
     });
 });
