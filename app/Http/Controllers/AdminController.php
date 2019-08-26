@@ -32,7 +32,7 @@ class AdminController extends Controller
 
     public function getUsers()
     {
-        $users = User::paginate(20);
+        $users = User::paginate(30);
         return view('admin.users.index', compact('users'));
     }
 
@@ -194,4 +194,26 @@ class AdminController extends Controller
         $advertisements = Advertisement::paginate(20);
         return view('admin.advertisements.index', compact('advertisements'));
     }
+
+    public function usersSearch(Request $request){
+      if($request->ajax())
+      {
+      $output="";
+      $users=User::where('name','LIKE','%'.$request->search."%")->get();
+      if($users)
+      {
+      foreach ($users as $key => $user) {
+      $output.='<tr>'.
+      '<td><a href="'.route('admin.userInfo', ['id' => $user->id]).'">'.$user->id.'</a></td>'.
+      '<td><a href="'.route('admin.userInfo', ['id' => $user->id]).'">'.$user->name.'</a></td>'.
+      '<td><a href="'.route('admin.userInfo', ['id' => $user->id]).'">'.$user->email.'</a></td>'.
+      '<td class="td-actions text-right"><a href="' .route('admin.userEditGet', ['id' => $user->id]). '" rel="tooltip" class="btn btn-primary btn-link btn-sm" data-original-title="تعديل"><i class="material-icons">edit</i></a><a href="' .route('admin.userDelete', ['id' => $user->id]). '" rel="tooltip" class="btn btn-danger btn-link btn-sm" data-original-title="حذف">
+                <i class="material-icons">close</i>
+              </a></td>'.
+      '</tr>';
+      }
+      return Response($output);
+      }
+    }
+  }
 }

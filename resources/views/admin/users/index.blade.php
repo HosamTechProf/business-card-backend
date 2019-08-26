@@ -8,6 +8,13 @@ Users Page
 @endcomponent
 <div class="row">
 <div class="col-md-12">
+  <div class="input-group no-border">
+                <input type="text" name="search" id="search" class="form-control" placeholder="بحث...">
+                <button type="submit" class="btn btn-default btn-round btn-just-icon">
+                  <i class="material-icons">search</i>
+                  <div class="ripple-container"></div>
+                </button>
+              </div>
               <div class="card">
                 <div class="card-header card-header-primary">
                 <a href="{{ route('admin.addUserGet') }}" style="display: inline-block;float: left;color: black" class="btn btn-secondary pull-right">اضافة عضو</a>
@@ -55,4 +62,22 @@ Users Page
               </div>
             </div>
             </div>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+<script type="text/javascript">
+$('#search').on('keyup',function(){
+$value=$(this).val();
+$.ajax({
+type : 'get',
+url : '{{URL::to('admin/users/search')}}',
+data:{'search':$value},
+success:function(data){
+$('tbody').html(data);
+}
+});
+})
+</script>
+<script type="text/javascript">
+$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+</script>
 @endsection

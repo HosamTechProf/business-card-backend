@@ -15,17 +15,18 @@ class favouritesController extends Controller
         $friend = Favourite::create($input);
         return response()->json(['status'=>true], 200);
     }
-    public function removeFavourite(Request $request)
+
+    public function removeFavourite(Request $request, $user1_id=null, $user2_id=null)
     {
-        $input = $request->all();
-		Favourite::where("user1_id", $input['user1_id'])->where("user2_id", $input['user2_id'])->delete();
+		Favourite::where("user1_id", $user1_id)->where("user2_id", $user2_id)->delete();
         return response()->json(['status'=>true], 200);
     }
-    public function isFavorited(Request $request)
+
+    public function isFavorited(Request $request, $user1_id=null, $user2_id=null)
     {
-        $input = $request->all();
-        return Favourite::where("user1_id", $input['user1_id'])->where("user2_id", $input['user2_id'])->count();
+        return Favourite::where("user1_id", $user1_id)->where("user2_id", $user2_id)->count();
     }
+
     public function getFavourites(){
         $user = Auth::user();
 		return $user->favourites;

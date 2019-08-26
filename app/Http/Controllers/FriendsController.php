@@ -41,12 +41,18 @@ class FriendsController extends Controller
         $user1->unfollow($user2);
      }
 
-    public function isFriend(Request $request){
-        $user1 = User::find($request->user1_id);
-        $user2 = User::find($request->user2_id);
+    public function isFriend(Request $request, $user1_id=null, $user2_id=null){
+        $user1 = User::find($user1_id);
+        $user2 = User::find($user2_id);
         if ($user1->isFollowing($user2)) {
             return 'true';
         }
         return 'false';
     }
+    public function search($id, $name = null, Request $request)
+    {
+        $user = User::find($id);
+        return $user->followings()->where('name', 'like', '%' . $name . '%')->get();
+    }
+
 }

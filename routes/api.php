@@ -10,20 +10,21 @@ Route::group([
     Route::group([
       'middleware' => 'auth:api'
     ], function() {
-        Route::post('user', 'Auth\AuthController@user');
+        Route::get('user', 'Auth\AuthController@user');
+        Route::get('isfavorited/{user1_id?}/{user2_id?}', 'favouritesController@isFavorited');
+        Route::get('removefavourite/{user1_id?}/{user2_id?}', 'favouritesController@removeFavourite');
+        Route::get('isfriend/{user1_id?}/{user2_id?}', 'FriendsController@isFriend');
         Route::post('addFriend', 'FriendsController@addFriend');
         Route::post('addFriendQr', 'FriendsController@addFriendQr');
         Route::post('addFavourite', 'favouritesController@addFavourite');
-        Route::post('isFavorited', 'favouritesController@isFavorited');
-        Route::post('getFavourites', 'favouritesController@getFavourites');
-        Route::post('removeFavourite', 'favouritesController@removeFavourite');
+        Route::get('getFavourites', 'favouritesController@getFavourites');
         Route::post('updateUser', 'Auth\AuthController@update');
-        Route::post('getFriends', 'FriendsController@getFriends');
-        Route::post('isFriend', 'FriendsController@isFriend');
+        Route::get('getFriends', 'FriendsController@getFriends');
         Route::post('deleteFriend', 'FriendsController@deleteFriend');
         Route::post('getFriendData', 'FriendsController@getFriendData');
         Route::post('search', 'Auth\AuthController@search');
-        Route::post('getads', 'AdvertisementsController@getAdvertisements');
-        Route::post('getadscount', 'AdvertisementsController@getAdvertisementsCount');
+        Route::get('getads', 'AdvertisementsController@getAdvertisements');
+        Route::get('getadscount', 'AdvertisementsController@getAdvertisementsCount');
+        Route::get('user/followings/{id}/{name?}', 'FriendsController@search');
     });
 });

@@ -40,6 +40,8 @@ Route::prefix('admin')->group(function() {
     Route::get('/advertisements/edit/{id}', 'AdminController@showAdvertisementEditForm')->name('admin.advertisementEditGet');
     Route::post('/advertisements/edit/{id}', 'AdminController@editAdvertisement')->name('admin.advertisementSave');
     Route::get('/advertisements/delete/{id}', 'AdminController@deleteAdvertisement')->name('admin.advertisementDelete');
+
+    Route::get('/users/search/', 'AdminController@usersSearch');
 });
 
 Route::get('test', function(){
