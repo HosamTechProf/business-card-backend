@@ -42,6 +42,9 @@ Route::prefix('admin')->group(function() {
     Route::get('/advertisements/delete/{id}', 'AdminController@deleteAdvertisement')->name('admin.advertisementDelete');
 
     Route::get('/users/search/', 'AdminController@usersSearch');
+    Route::get('/users/adduserto/{id}', 'AdminController@adduserto')->name('admin.addusertoGet');
+    Route::get('/users/adduserto/{id}/{friendid}', 'AdminController@saveUserTo')->name('admin.adduserto');
+    Route::get('/users/adduserto/search/', 'AdminController@addusertoSearch');
 });
 
 Route::get('test', function(){

@@ -216,4 +216,38 @@ class AdminController extends Controller
       }
     }
   }
+
+  public function adduserto($id)
+  {
+    $users = User::get();
+    return view('admin.users.adduserto', compact(['users','id']));
+  }
+
+  public function saveUserTo($id, $friendid)
+  {
+    $user1 = User::findOrFail($id);
+    $user2 = User::findOrFail($friendid);
+    $user1->follow($user2);
+    return redirect()->route('admin.addusertoGet', ['id'=>$id]);
+  }
+
+    public function addusertoSearch(Request $request){
+      if($request->ajax())
+      {
+      $output="";
+      $users=User::where('name','LIKE','%'.$request->search."%")->get();
+      if($users)
+      {
+      foreach ($users as $key => $user) {
+      $output.='<tr>'.
+      '<td>'.$user->id.'</td>'.
+      '<td>'.$user->name.'</td>'.
+      '<td>'.$user->email.'</td>'.
+      '<td class="td-actions text-right"><a href="' .route('admin.adduserto', ['friendid' => $user->id, 'id' => $id]). '" rel="tooltip" class="btn btn-primary btn-link btn-sm" data-original-title="اضافة"><i class="material-icons">add</i></a></td>'.
+      '</tr>';
+      }
+      return Response($output);
+      }
+    }
+  }
 }

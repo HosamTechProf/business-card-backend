@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 @section('title')
-Users Page
+User Page
 @endsection
 
 @section('content')
@@ -79,6 +79,7 @@ Users Page
 <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
+                <a href="{{ route('admin.addusertoGet', ['id' => $userData->id]) }}" style="display: inline-block;float: left;color: black" class="btn btn-secondary pull-right">اضافة بطاقة</a>
                   <h4 class="card-title ">بطاقات العضو</h4>
                 </div>
                 <div class="card-body">
@@ -126,6 +127,7 @@ Users Page
 <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
+                <a href="{{ route('admin.addusertoGet', ['id' => $userData->id]) }}" style="display: inline-block;float: left;color: black" class="btn btn-secondary pull-right">اضافة بطاقة مفضلة</a>
                   <h4 class="card-title ">البطاقات المفضلة للعضو</h4>
                 </div>
                 <div class="card-body">
