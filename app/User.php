@@ -9,10 +9,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Friend;
 use Overtrue\LaravelFollow\Traits\CanFollow;
 use Overtrue\LaravelFollow\Traits\CanBeFollowed;
+use Overtrue\LaravelFollow\Traits\CanFavorite;
+use Overtrue\LaravelFollow\Traits\CanBeFavorited;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, CanFollow, CanBeFollowed;
+    use HasApiTokens, Notifiable, CanFollow, CanBeFollowed, CanFavorite, CanBeFavorited;
 
     /**
      * The attributes that are mass assignable.

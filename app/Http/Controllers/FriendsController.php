@@ -47,8 +47,8 @@ class FriendsController extends Controller
         if ($user1->isFollowing($user2)) {
             return 'true';
         }
-        return 'false';
-    }
+            return 'false';
+        }
     public function search($id, $name = null, Request $request)
     {
         $user = User::find($id);
