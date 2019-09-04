@@ -14,7 +14,7 @@ class AddSocialLinkToUsers extends Migration
     public function up()
     {
         Schema::table('users', function($table) {
-            $table->string('socialLink');
+            $table->string('socialLink')->nullable();
         });
     }
 
