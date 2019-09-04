@@ -36,6 +36,8 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::table('users', function($table) {
+            $table->dropColumn('socialLink');
+        });
     }
 }
