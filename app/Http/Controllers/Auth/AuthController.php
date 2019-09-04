@@ -108,7 +108,7 @@ class AuthController extends Controller
                   'mobile' => 'required|min:8',
                   'desc' => 'required',
                   'company' => 'required',
-                  'socialLink' => 'required'
+                  // 'socialLink' => 'required'
         ]);
         if ($validator->fails()) {
            return response()->json(['error'=>$validator->errors()], 401);
