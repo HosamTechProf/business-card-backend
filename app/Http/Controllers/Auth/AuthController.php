@@ -67,6 +67,9 @@ class AuthController extends Controller
         if ($image == null) {
           $png_url = 'user.svg';
           $user->image = $png_url;
+          $user->save();
+          $success['token'] =  $user->createToken('AppName')->accessToken;
+          return response()->json(['status'=>true,'success'=>$success,'msg'=>'Register Successful'], 200);
         }
         else{
           $image = substr($image, strpos($image, ",")+1);
