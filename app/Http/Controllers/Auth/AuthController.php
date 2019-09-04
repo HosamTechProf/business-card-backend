@@ -41,18 +41,44 @@ class AuthController extends Controller
                   'email' => 'required|email|unique:users',
                   'password' => 'required|min:6',
                   'c_password' => 'required|same:password',
-                  'mobile' => 'required|regex:/(01)[0-9]{9}/',
+                  // 'mobile' => 'required|regex:/(01)[0-9]{9}/',
+                  'mobile' => 'required|min:8',
                   'desc' => 'required',
-                  'company' => 'required'
+                  'company' => 'required',
+                  'socialLink' => 'required'
         ]);
         if ($validator->fails()) {
            return response()->json(['error'=>$validator->errors()], 401);
         }
-        $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
-        $success['token'] =  $user->createToken('AppName')->accessToken;
-        return response()->json(['status'=>true,'success'=>$success,'msg'=>'Register Successful'], 200);
+        // $input = $request->all();
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->mobile = $request->mobile;
+        $user->desc = $request->desc;
+        $user->company = $request->company;
+        $user->socialLink = $request->socialLink;
+        $user->isPublic = $request->isPublic;
+        $user->password = bcrypt($request->password);
+
+        // $input['password'] = bcrypt($input['password']);
+        $image = $request->image;
+        if ($image == null) {
+          $png_url = 'user.svg';
+          $user->image = $png_url;
+        }
+        else{
+          $image = substr($image, strpos($image, ",")+1);
+          $data = base64_decode($image);
+          $png_url = "user-".time().".png";
+          $path = public_path().'/img/users/' . $png_url;
+          $user->image = $png_url;
+          $user->save();
+          file_put_contents($path, $data);
+          $success['token'] =  $user->createToken('AppName')->accessToken;
+          return response()->json(['status'=>true,'success'=>$success,'msg'=>'Register Successful'], 200);
+        }
     }
     public function logout(Request $request)
     {
@@ -74,45 +100,45 @@ class AuthController extends Controller
     public function update(Request $request)
     {
         $user = Auth::user();
-        if($request->has('name')) {
+        $id = $user->id;
+        $validator = Validator::make($request->all(), [
+                  'name' => 'required',
+                  'email' => 'required|email|unique:users,email,' . $id,
+                  // 'mobile' => 'required|regex:/(01)[0-9]{9}/',
+                  'mobile' => 'required|min:8',
+                  'desc' => 'required',
+                  'company' => 'required',
+                  'socialLink' => 'required'
+        ]);
+        if ($validator->fails()) {
+           return response()->json(['error'=>$validator->errors()], 401);
+        }
         $user->name = $request->name;
-        $user->save();
-        }
-        elseif($request->has('email')) {
         $user->email = $request->email;
-        $user->save();
-        }
-        elseif($request->has('phone')) {
         $user->phone = $request->phone;
-        $user->save();
-        }
-        elseif($request->has('company')) {
-        $user->company = $request->company;
-        $user->save();
-        }
-        elseif($request->has('mobile')) {
         $user->mobile = $request->mobile;
-        $user->save();
-        }
-        elseif($request->has('desc')) {
         $user->desc = $request->desc;
-        $user->save();
-        }
-        elseif($request->has('isPublic')) {
+        $user->company = $request->company;
+        $user->socialLink = $request->socialLink;
         $user->isPublic = $request->isPublic;
-        $user->save();
-        }
-        elseif($request->has('image')) {
+        // if($request->has('image')) {
+        // $user->save();
         $image = $request->image;
-        $image = substr($image, strpos($image, ",")+1);
-        $data = base64_decode($image);
-        $png_url = "user-".time().".png";
-        $path = public_path().'/img/users/' . $png_url;
-        $user->image = $png_url;
-        $user->save();
-        file_put_contents($path, $data);
-        return response()->json($user);
+        if ($image == null) {
+          $png_url = 'user.svg';
+          $user->image = $png_url;
         }
+        else{
+          $image = substr($image, strpos($image, ",")+1);
+          $data = base64_decode($image);
+          $png_url = "user-".time().".png";
+          $path = public_path().'/img/users/' . $png_url;
+          $user->image = $png_url;
+          $user->save();
+          file_put_contents($path, $data);
+        }
+        // return response()->json($user);
+        // }
 
         return response()->json($user);
     }
