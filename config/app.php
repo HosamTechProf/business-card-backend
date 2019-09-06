@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Overtrue\LaravelFollow\FollowServiceProvider::class,
+        Propaganistas\LaravelPhone\PhoneServiceProvider::class,
         /*
          * Package Service Providers...
          */

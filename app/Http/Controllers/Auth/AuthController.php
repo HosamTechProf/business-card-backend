@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Image;
+use Propaganistas\LaravelPhone\PhoneNumber;
+
 class AuthController extends Controller
 {
     public function login(Request $request) {
@@ -36,16 +38,17 @@ class AuthController extends Controller
     }
     public function register(Request $request)
     {
+      $countryCode = $request->countryCode;
         $validator = Validator::make($request->all(), [
                   'name' => 'required',
                   'email' => 'required|email|unique:users',
                   'password' => 'required|min:6',
                   'c_password' => 'required|same:password',
                   // 'mobile' => 'required|regex:/(01)[0-9]{9}/',
-                  'mobile' => 'required|min:8',
                   'desc' => 'required',
                   'company' => 'required',
-                  'socialLink' => 'required'
+                  'socialLink' => 'required',
+                  'mobile'       => 'phone:'.$countryCode
         ]);
         if ($validator->fails()) {
            return response()->json(['error'=>$validator->errors()], 401);
@@ -55,7 +58,7 @@ class AuthController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
-        $user->mobile = $request->mobile;
+        $user->mobile = PhoneNumber::make($request->mobile, $countryCode);
         $user->desc = $request->desc;
         $user->company = $request->company;
         $user->socialLink = $request->socialLink;
@@ -104,6 +107,7 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         $id = $user->id;
+        $countryCode = PhoneNumber::make($request->mobile)->getCountry();
         $validator = Validator::make($request->all(), [
                   'name' => 'required',
                   'email' => 'required|email|unique:users,email,' . $id,
@@ -111,6 +115,7 @@ class AuthController extends Controller
                   'mobile' => 'required|min:8',
                   'desc' => 'required',
                   'company' => 'required',
+                  'mobile'       => 'phone:'.$countryCode
                   // 'socialLink' => 'required'
         ]);
         if ($validator->fails()) {
@@ -119,7 +124,7 @@ class AuthController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
-        $user->mobile = $request->mobile;
+        $user->mobile = PhoneNumber::make($request->mobile, $countryCode);
         $user->desc = $request->desc;
         $user->company = $request->company;
         $user->socialLink = $request->socialLink;

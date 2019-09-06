@@ -28,3 +28,7 @@ Route::group([
         Route::get('user/followings/{id}/{name?}', 'FriendsController@search');
     });
 });
+Route::get('/codes', function(){
+    return file_get_contents(storage_path() . "/json/codes.json");
+
+});

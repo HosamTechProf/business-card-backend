@@ -13,6 +13,7 @@
 use App\User;
 use App\Friend;
 use App\Notifications\MyNotification;
+use Propaganistas\LaravelPhone\PhoneNumber;
 
 Route::get('/', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
 
@@ -49,21 +50,14 @@ Route::prefix('admin')->group(function() {
 
 Route::get('test', function(){
 
+return PhoneNumber::make('01024325125')->getCountry();
 
-$User = User::get();
-
-//Send Notification
-return $User->tokens;
-
-
-	// DB::table("friends")->where("user1_id", 1)->where("user2_id", 2)->delete();
-
-        // $user->delete();
-
-// $input = ['user1_id'=>3, 'user2_id'=>4];
-// $friend = Friend::create($input);
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/codes', function(){
+    return file_get_contents(storage_path() . "/json/codes.json");
+
+});
