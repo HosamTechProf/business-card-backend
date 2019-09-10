@@ -135,6 +135,7 @@ class AuthController extends Controller
         if ($image == null) {
           $png_url = 'user.svg';
           $user->image = $png_url;
+          $user->save();
         }
         else{
           $image = substr($image, strpos($image, ",")+1);
