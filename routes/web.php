@@ -61,7 +61,7 @@ Route::get('/codes', function(){
     return file_get_contents(storage_path() . "/json/codes.json");
 
 });
-Route::post('/user/{id}/{token}', function($id, $token){
+Route::get('/user/{id}/{token}', function($id, $token){
     return redirect('businesscard://card.rbsapps.com/user/'.$id.'/'.$token);
 
 });
