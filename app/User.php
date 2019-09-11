@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Friend;
+use App\Sharelink;
 use Overtrue\LaravelFollow\Traits\CanFollow;
 use Overtrue\LaravelFollow\Traits\CanBeFollowed;
 use Overtrue\LaravelFollow\Traits\CanFavorite;
@@ -51,5 +52,10 @@ class User extends Authenticatable
     public function favourites()
     {
         return $this->belongsToMany('App\User', 'favourites', 'user1_id', 'user2_id');
+    }
+
+    public function links()
+    {
+        return $this->hasMany('App\Sharelink');
     }
 }

@@ -26,6 +26,8 @@ Route::group([
         Route::get('getads', 'AdvertisementsController@getAdvertisements');
         Route::get('getadscount', 'AdvertisementsController@getAdvertisementsCount');
         Route::get('user/followings/{id}/{name?}', 'FriendsController@search');
+        Route::post('share', 'ShareController@share');
+        Route::post('updateshare', 'ShareController@updateShare');
     });
 });
 Route::get('/codes', function(){
