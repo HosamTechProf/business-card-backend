@@ -23,14 +23,14 @@ class ShareController extends Controller
     	$token = $request->token;
     	$user_id = $request->user_id;
     	$user2_id = $request->user2_id;
-	    $link = Sharelink::where('token', $token)->where('user_id', $user_id);
+	    $link = Sharelink::where('token', $token)->where('user_id', $user_id)->first();
 	    if ($link->user_id == $user2_id) {
-        	return response()->json(['msg'=>'رابط خطأ','status'=>false]);
+        	return response()->json(['msg'=>'رابط خطأ','status'=>'false1']);
 	    }
-	    elseif ($link->user_id != null) {
-	    	return response()->json(['msg'=>'رابط خطأ','status'=>false]);
+	    elseif ($link->user2_id != null) {
+	    	return response()->json(['msg'=>'رابط خطأ','status'=>'false2']);
 	    }
-	    elseif ($link->user_id == null) {
+	    elseif ($link->user2_id == null) {
 		    $link->user2_id = $user2_id;
 		    $link->save();
 	    	return response()->json(['msg'=>'رابط خطأ','status'=>true]);
