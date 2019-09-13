@@ -39,7 +39,7 @@ class AdminController extends Controller
     public function userInfo($id, Request $request){
         $userData = User::findOrFail($id);
         $userFriends = $userData->followings()->get();
-        $userFavourites = $userData->favourites;
+        $userFavourites = $userData->favorites()->get();
         return view('admin.users.info', compact(['userData', 'userFriends', 'userFavourites']));
     }
 
@@ -110,7 +110,9 @@ class AdminController extends Controller
     }
     public function deleteFavourite($favourited, $favouriter)
     {
-        Favourite::where("user1_id", $favouriter)->where("user2_id", $favourited)->delete();
+        $user1 = User::findOrFail($favouriter);
+        $user2 = User::findOrFail($favourited);
+        $user1->unfavorite($user2);
         return redirect()->route('admin.userInfo', ['id'=>$favouriter]);
     }
     public function getAdvertisements()
@@ -243,11 +245,12 @@ class AdminController extends Controller
       '<td>'.$user->id.'</td>'.
       '<td>'.$user->name.'</td>'.
       '<td>'.$user->email.'</td>'.
-      '<td class="td-actions text-right"><a href="' .route('admin.adduserto', ['friendid' => $user->id, 'id' => $id]). '" rel="tooltip" class="btn btn-primary btn-link btn-sm" data-original-title="اضافة"><i class="material-icons">add</i></a></td>'.
+      '<td class="td-actions text-right"><a href="'.route('admin.adduserto', ['friendid' => $user->id, 'id' => $request->id]).'" rel="tooltip" class="btn btn-primary btn-link btn-sm" data-original-title="اضافة"><i class="material-icons">add</i></a></td>'.
       '</tr>';
       }
       return Response($output);
       }
     }
   }
+
 }

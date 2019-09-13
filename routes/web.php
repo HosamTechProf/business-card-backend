@@ -45,13 +45,10 @@ Route::prefix('admin')->group(function() {
     Route::get('/users/search/', 'AdminController@usersSearch');
     Route::get('/users/adduserto/{id}', 'AdminController@adduserto')->name('admin.addusertoGet');
     Route::get('/users/adduserto/{id}/{friendid}', 'AdminController@saveUserTo')->name('admin.adduserto');
-    Route::get('/users/adduserto/search/', 'AdminController@addusertoSearch');
-});
+    Route::get('/users/addusertosearch/', 'AdminController@addusertoSearch');
 
-Route::get('test', function(){
-
-return PhoneNumber::make('01024325125')->getCountry();
-
+    Route::get('/notifications', 'NotificationController@sendNotificationForm')->name('admin.sendNotificationGet');
+    Route::post('/notifications', 'NotificationController@sendNotification')->name('admin.sendNotification');
 });
 
 Auth::routes();

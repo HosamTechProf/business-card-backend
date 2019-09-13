@@ -64,7 +64,7 @@ $('#search').on('keyup',function(){
 $value=$(this).val();
 $.ajax({
 type : 'get',
-url : '{{URL::to('admin/users/adduserto/search')}}',
+url : '{{URL::to('admin/users/addusertosearch')}}',
 data:{'search':$value},
 success:function(data){
 $('tbody').html(data);

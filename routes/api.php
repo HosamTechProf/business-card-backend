@@ -28,6 +28,7 @@ Route::group([
         Route::get('user/followings/{id}/{name?}', 'FriendsController@search');
         Route::post('share', 'ShareController@share');
         Route::post('updateshare', 'ShareController@updateShare');
+        Route::post('adddevicetoken', 'NotificationController@addDeviceToken');
     });
 });
 Route::get('/codes', function(){
