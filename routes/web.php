@@ -12,8 +12,6 @@
 */
 use App\User;
 use App\Friend;
-use App\Notifications\MyNotification;
-use Propaganistas\LaravelPhone\PhoneNumber;
 
 Route::get('/', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
 
