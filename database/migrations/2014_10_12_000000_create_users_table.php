@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('isPublic')->nullable();
             $table->string('image')->default('user.svg');
             $table->string('socialLink')->nullable();
-            $table->string('deviceToken');
+            $table->string('deviceToken')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
