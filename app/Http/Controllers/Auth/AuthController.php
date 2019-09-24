@@ -45,9 +45,7 @@ class AuthController extends Controller
                   'password' => 'required|min:6',
                   'c_password' => 'required|same:password',
                   // 'mobile' => 'required|regex:/(01)[0-9]{9}/',
-                  'desc' => 'required',
                   'company' => 'required',
-                  'socialLink' => 'required',
                   'mobile'       => 'phone:'.$countryCode
         ]);
         if ($validator->fails()) {
