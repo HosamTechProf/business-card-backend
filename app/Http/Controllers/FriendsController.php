@@ -29,8 +29,7 @@ class FriendsController extends Controller
 		return $user->followings()->get();
     }
 
-    public function getFriendData(Request $request){
-        $id = $request->id;
+    public function getFriendData($id = null, Request $request){
         $user = User::find($id);
         return $user;
     }

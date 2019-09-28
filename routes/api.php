@@ -19,7 +19,7 @@ Route::group([
         Route::post('updateUser', 'Auth\AuthController@update');
         Route::get('getFriends', 'FriendsController@getFriends');
         Route::post('deleteFriend', 'FriendsController@deleteFriend');
-        Route::post('getFriendData', 'FriendsController@getFriendData');
+        Route::get('getFriendData/{id?}', 'FriendsController@getFriendData');
         Route::post('search', 'Auth\AuthController@search');
         Route::get('getads', 'AdvertisementsController@getAdvertisements');
         Route::get('getadscount', 'AdvertisementsController@getAdvertisementsCount');
