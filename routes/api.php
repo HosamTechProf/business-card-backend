@@ -27,6 +27,7 @@ Route::group([
         Route::post('share', 'ShareController@share');
         Route::post('updateshare', 'ShareController@updateShare');
         Route::post('adddevicetoken', 'NotificationController@addDeviceToken');
+        Route::post('getcontacts', 'ContactController@getcontacts');
     });
 });
 Route::get('/codes', function(){
