@@ -12,10 +12,13 @@ class FriendsController extends Controller
     public function addFriend(Request $request){
         $user1 = User::find($request->user1_id);
         $user2 = User::find($request->user2_id);
-        $user1->follow($user2);
-        return response()->json(['status'=>true], 200);
+        if ($user1->isFollowing($user2)) {
+            return response()->json(['status'=>true], 200);
+        }else{
+            $user1->follow($user2);
+            return response()->json(['status'=>true], 200);
+        }
     }
-
     public function addFriendQr(Request $request){
         $user1 = User::find($request->user1_id);
         $user2 = User::find($request->user2_id);
@@ -38,6 +41,7 @@ class FriendsController extends Controller
         $user1 = User::find($request->user1_id);
         $user2 = User::find($request->user2_id);
         $user1->unfollow($user2);
+        $user1->unfavorite($user2);
      }
 
     public function isFriend(Request $request, $user1_id=null, $user2_id=null){

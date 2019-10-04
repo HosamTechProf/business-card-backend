@@ -229,8 +229,13 @@ class AdminController extends Controller
   {
     $user1 = User::findOrFail($id);
     $user2 = User::findOrFail($friendid);
-    $user1->follow($user2);
-    return redirect()->route('admin.addusertoGet', ['id'=>$id]);
+    if ($id == $friendid) {
+      echo "<script>alert('لا يمكن اضافة العضو عند نفسه')</script>";
+      // return redirect()->route('admin.addusertoGet', ['id'=>$id]);
+    }else{
+      $user1->follow($user2);
+      return redirect()->route('admin.addusertoGet', ['id'=>$id]);
+    }
   }
 
     public function addusertoSearch(Request $request){
