@@ -13,11 +13,11 @@ class AuthController extends Controller
 {
     public function login(Request $request) {
         $request->validate([
-            'email' => 'required|string|email',
+            'mobile' => 'required|string',
             'password' => 'required|string',
             //'remember_me' => 'boolean'
         ]);
-        $credentials = request(['email', 'password']);
+        $credentials = request(['mobile', 'password']);
         if(!Auth::attempt($credentials))
             return response()->json([
                 'message' => 'Unauthorized'
@@ -41,11 +41,8 @@ class AuthController extends Controller
       $countryCode = $request->countryCode;
         $validator = Validator::make($request->all(), [
                   'name' => 'required',
-                  'email' => 'required|email|unique:users',
                   'password' => 'required|min:6',
                   'c_password' => 'required|same:password',
-                  // 'mobile' => 'required|regex:/(01)[0-9]{9}/',
-                  'company' => 'required',
                   'mobile'       => 'phone:'.$countryCode
         ]);
         if ($validator->fails()) {
@@ -54,12 +51,7 @@ class AuthController extends Controller
         // $input = $request->all();
         $user = new User;
         $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
         $user->mobile = PhoneNumber::make($request->mobile, $countryCode);
-        $user->desc = $request->desc;
-        $user->company = $request->company;
-        $user->socialLink = $request->socialLink;
         $user->isPublic = $request->isPublic;
         $user->password = bcrypt($request->password);
 
@@ -108,11 +100,9 @@ class AuthController extends Controller
         $countryCode = PhoneNumber::make($request->mobile)->getCountry();
         $validator = Validator::make($request->all(), [
                   'name' => 'required',
-                  'email' => 'required|email|unique:users,email,' . $id,
+                  'email' => 'nullable|email|unique:users,email,' . $id,
                   // 'mobile' => 'required|regex:/(01)[0-9]{9}/',
-                  'mobile' => 'required|min:8',
-                  'desc' => 'required',
-                  'company' => 'required',
+                  'mobile' => 'min:8',
                   'mobile'       => 'phone:'.$countryCode
                   // 'socialLink' => 'required'
         ]);

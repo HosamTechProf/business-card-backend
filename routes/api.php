@@ -18,12 +18,15 @@ Route::group([
         Route::get('getFavourites', 'favouritesController@getFavourites');
         Route::post('updateUser', 'Auth\AuthController@update');
         Route::get('getFriends', 'FriendsController@getFriends');
+        Route::get('getfollowrequests', 'FriendsController@getFollowRequests');
+        Route::get('getfollowrequestscount', 'FriendsController@getFollowRequestsCount');
         Route::post('deleteFriend', 'FriendsController@deleteFriend');
         Route::get('getFriendData/{id?}', 'FriendsController@getFriendData');
         Route::post('search', 'Auth\AuthController@search');
         Route::get('getads', 'AdvertisementsController@getAdvertisements');
         Route::get('getadscount', 'AdvertisementsController@getAdvertisementsCount');
         Route::get('user/followings/{id}/{name?}', 'FriendsController@search');
+        Route::get('user/acceptfollowrequest/{id1?}/{id2?}', 'FriendsController@acceptFollowRequest');
         Route::post('share', 'ShareController@share');
         Route::post('updateshare', 'ShareController@updateShare');
         Route::post('adddevicetoken', 'NotificationController@addDeviceToken');
