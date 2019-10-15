@@ -114,7 +114,10 @@ class FriendsController extends Controller
     public function search($id, $name = null, Request $request)
     {
         $user = User::find($id);
-        return $user->followings()->where('name', 'like', '%' . $name . '%')->get();
+        $friends = $user->followings()->where('name', 'like', '%' . $name . '%')->get();
+        $test = collect($friends);
+        $test2 = $test;
+        return $test->where('pivot.status', '1')->values();
     }
 
 }

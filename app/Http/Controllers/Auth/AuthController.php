@@ -143,6 +143,21 @@ class AuthController extends Controller
     {
         $user = $request->user()->name;
         $name = $request->name;
-        return User::where('name', 'like', '%' . $name . '%')->where('isPublic', 1)->where('name', '!=', $user)->get();
+        $type = $request->type;
+        switch ($type) {
+          case 'name':
+            return User::where('name', 'like', '%' . $name . '%')->where('isPublic', 1)->where('name', '!=', $user)->get();
+            break;
+          case 'mobile':
+            return User::where('mobile', 'like', '%' . $name . '%')->where('isPublic', 1)->where('name', '!=', $user)->get();
+            break;
+          case 'email':
+            return User::where('email', 'like', '%' . $name . '%')->where('isPublic', 1)->where('name', '!=', $user)->get();
+            break;
+
+          default:
+            return User::where('name', 'like', '%' . $name . '%')->where('isPublic', 1)->where('name', '!=', $user)->get();
+            break;
+        }
     }
 }
