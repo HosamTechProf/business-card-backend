@@ -14,6 +14,7 @@ Route::group([
         Route::get('isfriend/{user1_id?}/{user2_id?}', 'FriendsController@isFriend');
         Route::post('addFriend', 'FriendsController@addFriend');
         Route::post('addFriendQr', 'FriendsController@addFriendQr');
+        Route::post('addFriendFromGallery', 'FriendsController@addFriendFromGallery');
         Route::post('addFavourite', 'favouritesController@addFavourite');
         Route::get('getFavourites', 'favouritesController@getFavourites');
         Route::post('updateUser', 'Auth\AuthController@update');
