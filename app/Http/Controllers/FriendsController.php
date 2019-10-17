@@ -126,7 +126,7 @@ class FriendsController extends Controller
         $image = substr($image, strpos($image, ",")+1);
         $data = base64_decode($image);
         $png_url = "qr-".time().".png";
-        $path = public_path().'/img/qrcodes/' . $png_url;
+        $path = public_path().'/img/users/' . $png_url;
         file_put_contents($path, $data);
         return response()->json(['photo'=>$png_url]);
     }
