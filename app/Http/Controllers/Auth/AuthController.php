@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Auth;
 use App\User;
+use App\Codes;
 use Validator;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -159,5 +160,11 @@ class AuthController extends Controller
             return User::where('name', 'like', '%' . $name . '%')->where('isPublic', 1)->where('name', '!=', $user)->get();
             break;
         }
+    }
+
+    public function getCodes()
+    {
+      $codes = Codes::all();
+      return response()->json($codes);
     }
 }

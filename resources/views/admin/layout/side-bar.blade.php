@@ -35,6 +35,12 @@
               <p>الإشعارات</p>
             </a>
           </li>
+          <li class="nav-item {{ (request()->is('admin/codes')) ? 'active' : '' }}">
+            <a class="nav-link" href="/admin/codes">
+              <i class="material-icons">phone</i>
+              <p>كود الدول</p>
+            </a>
+          </li>
         </ul>
       </div>
     </div>

@@ -5,6 +5,7 @@ Route::group([
 ], function () {
     Route::post('login', 'Auth\AuthController@login')->name('login');
     Route::post('register', 'Auth\AuthController@register');
+    Route::get('getcodes', 'Auth\AuthController@getCodes');
     Route::group([
       'middleware' => 'auth:api'
     ], function() {

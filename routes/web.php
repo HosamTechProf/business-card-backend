@@ -47,6 +47,10 @@ Route::prefix('admin')->group(function() {
 
     Route::get('/notifications', 'NotificationController@sendNotificationForm')->name('admin.sendNotificationGet');
     Route::post('/notifications', 'NotificationController@sendNotification')->name('admin.sendNotification');
+    Route::get('/codes', 'AdminController@showCodesInfo')->name('admin.showCodesInfo');
+    Route::get('/codes/add', 'AdminController@showAddCodeForm')->name('admin.showCodesForm');
+    Route::post('/codes/add', 'AdminController@addCode')->name('admin.addCode');
+    Route::get('/codes/delete/{id}', 'AdminController@deleteCode')->name('admin.deleteCode');
 });
 
 Auth::routes();

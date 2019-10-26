@@ -39,6 +39,7 @@
   <link href="/assets/css/material-dashboard-rtl.css?v=1.1" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="/assets/demo/demo.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
 
   <!-- Style Just for persian demo purpose, don't include it in your project -->
   <style>
@@ -70,6 +71,10 @@
 .pagination > li > a,
 .pagination > li > span {
     color: black
+}
+
+.bootstrap-select>.dropdown-toggle.bs-placeholder, .bootstrap-select>.dropdown-toggle.bs-placeholder:active, .bootstrap-select>.dropdown-toggle.bs-placeholder:focus, .bootstrap-select>.dropdown-toggle.bs-placeholder:hover {
+  color:white;
 }
   </style>
 </head>
@@ -110,6 +115,8 @@
 
       });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+
 </body>
 
 </html>

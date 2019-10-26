@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Favourite;
 use App\Advertisement;
+use App\Codes;
 use Illuminate\Http\Request;
 use Validator;
 use App\Traits\UploadTrait;
@@ -258,4 +259,32 @@ class AdminController extends Controller
     }
   }
 
+    public function showCodesInfo()
+    {
+        $codes = Codes::all();
+        return view('admin.codes.index', compact('codes'));
+    }
+
+    public function showAddCodeForm()
+    {
+        $json = file_get_contents(storage_path() . "/json/codes.json");
+        $codes = json_decode($json);
+        $codes = $codes->countries;
+        return view('admin.codes.add', compact('codes'));
+    }
+
+    public function addCode(Request $request)
+    {
+      $input = $request->only('name', 'dial_code', 'code');
+      Codes::create($input);
+      $codes = Codes::all();
+      return redirect()->route('admin.showCodesInfo', ['codes'=>$codes]);
+    }
+
+    public function deleteCode($id)
+    {
+      Codes::destroy($id);
+      $codes = Codes::all();
+      return redirect()->route('admin.showCodesInfo', ['codes'=>$codes]);
+    }
 }
