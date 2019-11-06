@@ -13,12 +13,14 @@ use Propaganistas\LaravelPhone\PhoneNumber;
 class AuthController extends Controller
 {
     public function login(Request $request) {
+        $countryCode = $request->countryCode;
         $request->validate([
-            'mobile' => 'required|string',
-            'password' => 'required|string',
-            //'remember_me' => 'boolean'
+            'mobile'       => 'phone:'.$countryCode,
+            'password' => 'required|string'
         ]);
-        $credentials = request(['mobile', 'password']);
+        $mobile = PhoneNumber::make($request->mobile, $countryCode);
+        // $credentials = request(['mobile', 'password']);
+        $credentials = ['mobile'=>$mobile, 'password'=>$request->password];
         if(!Auth::attempt($credentials))
             return response()->json([
                 'message' => 'Unauthorized'
@@ -49,7 +51,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
            return response()->json(['error'=>$validator->errors()], 401);
         }
-        // $input = $request->all();
+
         $user = new User;
         $user->name = $request->name;
         $user->mobile = PhoneNumber::make($request->mobile, $countryCode);
