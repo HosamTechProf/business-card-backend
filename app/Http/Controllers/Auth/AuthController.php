@@ -157,7 +157,12 @@ class AuthController extends Controller
           case 'email':
             return User::where('email', 'like', '%' . $name . '%')->where('isPublic', 1)->where('name', '!=', $user)->get();
             break;
-
+          case 'desc':
+            return User::where('desc', 'like', '%' . $name . '%')->where('isPublic', 1)->where('name', '!=', $user)->get();
+            break;
+          case 'company':
+            return User::where('company', 'like', '%' . $name . '%')->where('isPublic', 1)->where('name', '!=', $user)->get();
+            break;
           default:
             return User::where('name', 'like', '%' . $name . '%')->where('isPublic', 1)->where('name', '!=', $user)->get();
             break;
