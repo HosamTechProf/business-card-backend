@@ -7,6 +7,7 @@ Route::group([
     Route::post('register', 'Auth\AuthController@register');
     Route::get('getcodes', 'Auth\AuthController@getCodes');
     Route::post('verifycode', 'Auth\AuthController@verifyCode');
+    Route::post('sendcode', 'Auth\AuthController@sendCode');
     Route::group([
       'middleware' => 'auth:api'
     ], function() {

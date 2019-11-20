@@ -197,4 +197,14 @@ class AuthController extends Controller
       }
       return response()->json(['status'=>false]);
     }
+
+    public function sendCode(Request $request)
+    {
+      $code = $request->code;
+      $mobile = $request->mobile;
+      $client = new \GuzzleHttp\Client();
+      $request = $client->get('http://www.alsaad2.net/api/sendsms.php?username=faisalaljohni&password=a1234567&message=كود التفعيل الخاص بك هو : ' . $code . '&numbers=' . $mobile . '&return=json&sender=School');
+      $response = $request->getBody();
+      return $response;
+    }
 }
