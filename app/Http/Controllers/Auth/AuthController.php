@@ -15,7 +15,7 @@ class AuthController extends Controller
     public function login(Request $request) {
         $countryCode = $request->countryCode;
         $request->validate([
-            'mobile'       => 'phone:'.$countryCode,
+            'mobile'   => 'phone:'.$countryCode,
             'password' => 'required|string'
         ]);
         $mobile = PhoneNumber::make($request->mobile, $countryCode);
@@ -31,7 +31,19 @@ class AuthController extends Controller
         if ($request->remember_me)
             $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
+        if($user->code != null){
+            $code = rand(1234,9876);
+            $user->code = $code;
+            $user->save();
+            return response()->json([
+                'message' => 'Active Account',
+                'access_token' => $tokenResult->accessToken,
+                'mobile' => $mobile,
+                'code' => $code
+            ]);
+        }
         return response()->json([
+            'message'=>'Authorized',
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(
@@ -41,7 +53,7 @@ class AuthController extends Controller
     }
     public function register(Request $request)
     {
-      $countryCode = $request->countryCode;
+        $countryCode = $request->countryCode;
         $validator = Validator::make($request->all(), [
                   'name' => 'required',
                   'password' => 'required|min:6',
@@ -57,15 +69,16 @@ class AuthController extends Controller
         $user->mobile = PhoneNumber::make($request->mobile, $countryCode);
         $user->isPublic = $request->isPublic;
         $user->password = bcrypt($request->password);
-
-        // $input['password'] = bcrypt($input['password']);
+        $code = rand(1234,9876);
+        $user->code = $code;
         $image = $request->image;
+
         if ($image == null) {
           $png_url = 'user.svg';
           $user->image = $png_url;
           $user->save();
           $success['token'] =  $user->createToken('AppName')->accessToken;
-          return response()->json(['status'=>true,'success'=>$success,'msg'=>'Register Successful'], 200);
+          return response()->json(['status'=>true,'success'=>$success,'msg'=>'Register Successful','mobile'=>PhoneNumber::make($request->mobile, $countryCode),'code'=>$code], 200);
         }
         else{
           $image = substr($image, strpos($image, ",")+1);
@@ -76,7 +89,7 @@ class AuthController extends Controller
           $user->save();
           file_put_contents($path, $data);
           $success['token'] =  $user->createToken('AppName')->accessToken;
-          return response()->json(['status'=>true,'success'=>$success,'msg'=>'Register Successful'], 200);
+          return response()->json(['status'=>true,'success'=>$success,'msg'=>'Register Successful','mobile'=>PhoneNumber::make($request->mobile, $countryCode),'code'=>$code], 200);
         }
     }
     public function logout(Request $request)
@@ -173,5 +186,15 @@ class AuthController extends Controller
     {
       $codes = Codes::all();
       return response()->json($codes);
+    }
+
+    public function verifyCode(Request $request)
+    {
+      $user = User::where('mobile', $request->mobile)->first();
+      if ($user->code == $request->code) {
+        User::where('mobile', $request->mobile)->update(['code' => null]);
+        return response()->json(['status'=>true]);
+      }
+      return response()->json(['status'=>false]);
     }
 }
