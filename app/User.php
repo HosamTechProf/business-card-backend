@@ -58,4 +58,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Sharelink');
     }
+
+    public function tokenExpired()
+    {
+        if (Carbon::parse($this->attributes['expires_at']) < Carbon::now()) {
+            return true;
+        }
+        return false;
+    }
 }
