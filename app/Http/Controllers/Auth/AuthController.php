@@ -58,12 +58,18 @@ class AuthController extends Controller
                   'name' => 'required',
                   'password' => 'required|min:6',
                   'c_password' => 'required|same:password',
-                  'mobile'       => 'phone:'.$countryCode
+                  'mobile'       => 'unique:users|phone:'.$countryCode
         ]);
         if ($validator->fails()) {
            return response()->json(['error'=>$validator->errors()], 401);
         }
-
+        $mobile = ['mobile'=>PhoneNumber::make($request->mobile, $countryCode)];
+        $validator = Validator::make($mobile, [
+                  'mobile'       => 'unique:users'
+        ]);
+        if ($validator->fails()) {
+           return response()->json(['error'=>$validator->errors()], 401);
+        }
         $user = new User;
         $user->name = $request->name;
         $user->mobile = PhoneNumber::make($request->mobile, $countryCode);
