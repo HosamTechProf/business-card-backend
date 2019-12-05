@@ -61,6 +61,6 @@ Route::get('/codes', function(){
 
 });
 Route::get('/user/{id}/{token}', function($id, $token){
-    return redirect('bc://card.rbsapps.com/user/'.$id.'/'.$token);
+    return redirect('businesscard://card.rbsapps.com/user/'.$id.'/'.$token);
 
 });
